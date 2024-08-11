@@ -1,0 +1,16 @@
+@using TareasMVC.Entidades;
+@model Tarea
+
+@{
+    ViewData["Title"] = "Eliminar tarea";
+}
+
+<h2>Eliminar @Model.Titulo</h2>
+<p>¿Desea eliminar la tarea seleccionada?</p>
+<form asp-action="Eliminar">
+    <input type="hidden"asp-for="@Model.Id">
+    <div class="d-flex gap-3 form-group">
+        <a asp-action="Index" class="btn btn-danger">Cancelar</a>
+        <button class="btn btn-primary">Confirmar</button>
+    </div>
+</form>

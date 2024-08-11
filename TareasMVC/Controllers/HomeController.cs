@@ -59,15 +59,37 @@ namespace TareasMVC.Controllers
         public async Task<IActionResult> EditarTarea(int id)
         {
             var resultado = await context.Tareas.Where(x => x.Id == id).FirstOrDefaultAsync(); 
-            return View();
+            return View(resultado);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditarTarea(Tarea modelo)
         {
-            return View();
+            if(!ModelState.IsValid){
+                return View(modelo);
+            }
+            var tarea = await context.Tareas.FindAsync(modelo.Id);
+            if(tarea is null){
+                return NotFound();
+            }
+            tarea.Titulo = modelo.Titulo;
+            tarea.Descripcion = modelo.Descripcion;
+            await context.SaveChangesAsync();
+            return RedirectToAction("index");
+        }
+        public async Task<IActionResult> Eliminar(int id){
+            var modelo = await context.Tareas.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return View(modelo);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Eliminar(Tarea model)
+        {
+            var modelo = await context.Tareas.Where(x => x.Id == model.Id).FirstOrDefaultAsync();
+            context.Tareas.Remove(modelo);
+            await context.SaveChangesAsync();
+            return RedirectToAction("index");
+        }
 
         [HttpPost]
         public IActionResult CambiarIdioma(string cultura, string urlRetorno)

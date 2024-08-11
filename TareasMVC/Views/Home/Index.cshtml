@@ -16,20 +16,31 @@
 </div>
 
 <div class="my-3">
-    @foreach (var tarea in Model)
-    {
-        <div class="d-md-flex gap-2 justify-content-evenly align-items-center">
-            <h4>@tarea.Titulo</h4>
-            <p>@tarea.Descripcion</p>
-            <div class="d-flex gap-3">
-                <a asp-action="EditarTarea" asp-route-id="@tarea.Id"  class="btn btn-primary">Editar</a>
-                <a href="#" class="btn btn-danger">Eliminar</a>
-            </div>
-        </div>
-    }
-
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Título</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tarea in Model)
+            {
+                <tr>
+                    <td>@tarea.Titulo</td>
+                    <td>@tarea.Descripcion</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <a asp-action="EditarTarea" asp-route-id="@tarea.Id" class="btn btn-primary btn-sm">Editar</a>
+                            <a asp-action="Eliminar" asp-route-id="@tarea.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
-
 
 <partial name="_ModalEditarTarea" />
 
