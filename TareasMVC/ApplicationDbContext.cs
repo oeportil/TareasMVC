@@ -16,7 +16,7 @@ namespace TareasMVC
 
             //modelBuilder.Entity<Tarea>().Property(t => t.Titulo).HasMaxLength(250).IsRequired();
         }
-
+        public DbSet<LoginToken> LoginTokens { get; set; }
         public DbSet<Tarea> Tareas { get; set; }
         public DbSet<Paso> Pasos { get; set; }
         public DbSet<ArchivoAdjunto> ArchivosAdjuntos { get; set; }

@@ -30,6 +30,12 @@ namespace TareasMVC.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public IActionResult LoginToken()
+        {
+            return View();
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Registro(RegistroViewModel modelo)

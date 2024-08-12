@@ -1,0 +1,56 @@
+﻿@model TokenViewModel
+
+<h3>Ingresa tus datos para continuar</h3>
+<p>Si tu dirección de correo electrónico está registrada, te enviaremos un correo con un token.</p>
+<form id="correoForm">
+    <label class="form-label">Email</label>
+    <input class="form-control" asp-for="Email" id="email"/>
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <button class="btn btn-primary mt-4" type="submit">Enviar token</button>
+</form>
+<div id="contenido" class="my-3">
+
+</div>
+
+<script>
+    const correo = document.getElementById("email");
+    document.getElementById("correoForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const url = `https://localhost:7275/api/token?Email=${correo.value}`;
+        if (correo.length != 0) {
+                const resultado = await fetch(url);
+                const content = document.getElementById("contenido");
+                content.innerHTML = `
+                        <form id="tokeng">
+                            <div class="form-group">
+                                <label class="form-label">Token</label>
+                                <input class="form-control" id="tokenInput" required/>
+                                <button class="btn btn-primary mt-4" type="submit">Ingresar con Token</button>
+                            </div>
+                        </form>
+                    `;
+
+                
+                document.getElementById("tokeng").addEventListener("submit", async function (e) {
+                    e.preventDefault();
+                    const token = document.getElementById("tokenInput").value;
+                const tokenUrl = `https://localhost:7275/api/token?Email=${correo.value}&Token=${token}`;
+                    const response = await fetch(tokenUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                    });
+
+                    if (response.ok) {
+                       
+                        window.location.href = "/Home/Index";
+                    } else {
+                        
+                        alert("Token inválido o error en la autenticación.");
+                    }
+                });
+            
+        }
+    });
+</script>

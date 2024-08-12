@@ -249,6 +249,30 @@ namespace TareasMVC.Migrations
                     b.ToTable("ArchivosAdjuntos");
                 });
 
+            modelBuilder.Entity("TareasMVC.Entidades.LoginToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Expiration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LoginTokens");
+                });
+
             modelBuilder.Entity("TareasMVC.Entidades.Paso", b =>
                 {
                     b.Property<Guid>("Id")
@@ -366,6 +390,15 @@ namespace TareasMVC.Migrations
                         .IsRequired();
 
                     b.Navigation("Tarea");
+                });
+
+            modelBuilder.Entity("TareasMVC.Entidades.LoginToken", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TareasMVC.Entidades.Paso", b =>
